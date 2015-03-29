@@ -58,7 +58,8 @@ Dependencies
 Installation
 ------------
 
-TODO
+1. cd $GOPATH/src
+2. git clone https://github.com/nkeronkow/tolxanka.git
 
 Setting Up Administrative Roles
 -------------------------------

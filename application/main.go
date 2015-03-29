@@ -19,7 +19,7 @@ import (
     "time"
 )
 
-const configDir = "config/"
+const configDir = "data/config/"
 var staffSessions = sessions.NewCookieStore()
 
 var db              *sql.DB
@@ -64,7 +64,7 @@ func watchSignals() chan os.Signal {
 
 func installHandlers() {
     // Handlers accessing threshold restricted resources
-    http.Handle("/static/", http.FileServer(http.Dir(".")))
+    http.Handle("/static/", http.FileServer(http.Dir("./data/")))
 	handleThreshold("/", showTagQuery(0, "!!_all", "catalog"))
 	handleThreshold("/cat/",                   showCatQueryFromURI)
 	handleThreshold("/sum/",                   showSumQueryFromURI)
