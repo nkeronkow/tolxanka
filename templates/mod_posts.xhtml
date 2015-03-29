@@ -1,0 +1,64 @@
+{{ define "mod_posts" }}<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Administrate Posts</title>
+        <link rel="stylesheet" type="text/css" href="/static/board.css" />
+        <script type="application/javascript" src="/static/general.js"></script>
+        <meta charset="UTF-8"/>
+    </head>
+
+    <body id="thread">
+        <article id="admin_block">
+            <section id="actions">
+                <label class="action"><input name="delete_post"  type="checkbox" form="mod_posts" checked="on" />Delete posts</label>
+                <label class="action"><input name="delete_image" type="checkbox" form="mod_posts" />Delete images</label>
+                <label class="action"><input name="block_image" type="checkbox" form="mod_posts" />Block images</label>
+            </section>
+            <section id="rules">
+                <div class="reason">
+                    <label class="ban_reason">
+                        <input name="ban_reason" value="no_ban" type="radio" form="mod_posts" checked="on" />No ban
+                        <input name="no_ban_ban_desc" value="no_ban" type="hidden" form="mod_posts" />
+                        <input name="no_ban_ban_length" value="0" type="hidden" form="mod_posts" />
+                    </label>
+                </div>
+            {{ range .BanReasons }}
+                <div class="reason">
+                    <label class="ban_reason">
+                        <input name="ban_reason" value="{{ .Name }}" type="radio" form="mod_posts" />{{ .Description }}
+                        <input name="{{ .Name }}_ban_desc" value="{{ .Description }}" type="hidden" form="mod_posts" />
+                    </label>
+                    <label class="ban_length">
+                        <input name="{{ .Name }}_ban_length" class="ban_length" type="text"
+                               maxlength="7" value="{{ .Length }}" autocomplete="off" form="mod_posts" />
+                        days
+                    </label>
+                </div>
+            {{ end }}
+                <div class="reason">
+                    <label class="ban_reason">
+                        <input name="ban_reason" value="other" type="radio" form="mod_posts" />
+                    </label>
+                    <input name="other_ban_desc" class="ban_desc" placeholder="Other reason" type="text" form="mod_posts" />
+                    <label class="ban_length">
+                        <input name="other_ban_length" class="ban_length" type="text"
+                               maxlength="7" value="1" autocomplete="off" form="mod_posts" />
+                        days
+                    </label>
+                </div>
+            </section>
+            <form id="mod_posts" name="mod_posts" action="/admin_mod_posts" method="POST">
+                {{ range .Posts }}
+                    <input type="hidden" name="gid" class="gid" value="{{ .GlobalId }}"/>
+                {{ end }}
+                <input type="submit" id="submit_mod_posts" value="Submit"/>
+            </form>
+        </article>
+        <h4>Selected posts:</h4>
+        <div id="thread">
+            {{ range .Posts }}{{ template "post" . }}{{ end }}
+        </div>
+    </body>
+</html>
+{{ end }}
+

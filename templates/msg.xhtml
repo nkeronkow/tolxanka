@@ -1,0 +1,67 @@
+
+{{ define "404" }}                  {{ template "msg" "Page not found." }}                      {{ end }} 
+{{ define "no_image" }}             {{ template "msg" "No image uploaded." }}                   {{ end }} 
+{{ define "image_decode_failure" }} {{ template "msg" "Image appears malformed." }}             {{ end }} 
+{{ define "thread_not_exist" }}     {{ template "msg" "Thread does not exist." }}               {{ end }} 
+{{ define "thread_locked" }}        {{ template "msg" "Thread is locked." }}                    {{ end }} 
+{{ define "post_not_exist" }}       {{ template "msg" "Post does not exist." }}                 {{ end }} 
+{{ define "word_filter_blocked" }}  {{ template "msg" "Post contains blocked text." }}          {{ end }} 
+{{ define "no_tags" }}              {{ template "msg" "No thread tags entered." }}              {{ end }} 
+{{ define "too_many_tags" }}        {{ template "msg" "Too many tags entered." }}               {{ end }} 
+{{ define "prohibited_tags" }}      {{ template "msg" "Tags may not begin with !!_ or !?_" }}   {{ end }} 
+{{ define "admin_login_failure" }}  {{ template "msg" "Admin login failed." }}                  {{ end }} 
+{{ define "invalid_cookie" }}       {{ template "msg" "Invalid admin cookie." }}                {{ end }} 
+{{ define "invalid_fields" }}       {{ template "msg" "Missing or invalid fields."}}            {{ end }} 
+{{ define "already_reported" }}     {{ template "msg" "Your IP already reported this post."}}   {{ end }} 
+{{ define "too_many_requests" }}    {{ template "msg" "You are sending too many requests." }}   {{ end }} 
+{{ define "image_block_failed" }}   {{ template "msg" "Error blocking image." }}                {{ end }} 
+{{ define "need_pic_or_text" }}     {{ template "msg" "Post must include text or an image." }}  {{ end }} 
+{{ define "tag_too_long" }}         {{ template "msg" "One of the entered tags is too long." }} {{ end }} 
+{{ define "comment_too_long" }}     {{ template "msg" "Comment too long." }}                    {{ end }} 
+{{ define "too_many_threads" }}     {{ template "msg" "You are creating too many threads." }}   {{ end }} 
+{{ define "too_many_posts" }}       {{ template "msg" "You are posting too rapidly." }}         {{ end }} 
+{{ define "too_many_reports" }}     {{ template "msg" "Post reporting limit reached." }}        {{ end }} 
+{{ define "must_indicate_nsfw" }}   {{ template "msg" "Select NSFW or Not NSFW." }}             {{ end }} 
+
+{{ define "msg" }}<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Notice</title>
+        <link rel="stylesheet" type="text/css" href="/static/board.css" />
+        <meta charset="UTF-8"/>
+    </head>
+
+    <body>
+        <article class="msg">
+            <h2 id="message_text">{{ . }}</h2>
+            <a href='#' onclick='history.go(-1);return false;'><h3>Back</h3></a>
+        </article> 
+    </body>
+</html>
+{{ end }}
+
+{{ define "passthrough" }}<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Notice</title>
+        <link rel="stylesheet" type="text/css" href="/static/board.css" />
+        <script type="text/javascript">
+            setTimeout(function() { window.location.replace( {{ .Target }} ); }, {{ .Delay }} * 1000);
+        </script>
+    </head>
+
+    <body>
+        <article class="msg">
+            <h2>
+                {{ if strEq .MsgName "post_reported" }}Post reported.{{ end }}
+                {{ if strEq .MsgName "thread_deleted" }}Thread deleted.{{ end }}
+                {{ if strEq .MsgName "thread_stickied" }}Thread sticky attribute updated.{{ end }}
+                {{ if strEq .MsgName "admin_login_success" }}Admin login successful.{{ end }} 
+                {{ if strEq .MsgName "actions_complete" }}Actions completed.{{ end }} 
+            </h2>
+        </article> 
+    </body>
+</html>
+{{ end }}
+

@@ -1,0 +1,22 @@
+{{ define "admin_login" }}<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <title>{{ .Settings.General.SiteName }}</title>
+        <link rel="stylesheet" type="text/css" href="/static/board.css" />
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <article class="challenge">
+            <textarea id="challenge_box" name="challenge_box" cols="80" rows="15">{{ .Challenge }}</textarea>
+
+            <form id="response_form" name="response_form" action="/admin_response" method="POST">
+                <input type="staff" id="staff_name" name="staff_name" placeholder="Login" cols="80" rows="1"></textarea><br/>
+                <textarea id="response" name="response" placeholder="Response" cols="80" rows="12"></textarea><br/>
+                <input type="submit" id="submit_response" value="Submit"/>
+            </form>
+        </article>
+    </body>
+</html>
+{{ end }}
+

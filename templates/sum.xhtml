@@ -1,0 +1,146 @@
+{{ define "summary" }}<!DOCTYPE html>
+    {{ $cq := .Query.QueryString | fields | sanitizeLabels }}
+    {{ $cleanQuery := join $cq " " }}
+
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+        <title>{{ .Settings.General.SiteName }}</title>
+            <link rel="stylesheet" type="text/css" href="/static/board.css" />
+            <script type="application/javascript" src="/static/general.js"></script>
+            <meta charset="UTF-8" />
+        </head>
+
+        <body id="query"
+              class="summary"
+              data-query="{{ $cleanQuery }}"
+              data-page_type="query"
+              data-view_mode="summary">
+            {{ template "sum_query_header" . }}
+            {{ template "summary_middle" .}}
+            {{ template "query_footer" . }}
+        </body>
+    </html>
+{{ end }}
+
+{{ define "summary_middle" }}
+    {{ if or .Normal .Sticky }}
+        {{ template "sum_nav" . }}
+        <div id="results">
+            {{ range .Sticky }}<div id="sticky_threads">{{ .SumBytes | bytesToHtml }}</div>{{ end }}
+            {{ range .Normal }}{{ .SumBytes | bytesToHtml }}{{ end }}
+        </div>
+        {{ template "page_row" . }}
+    {{ else }}
+        <div id="results">
+            <h2 class="no_results">No results.</h2>
+        </div>
+    {{ end }}
+{{ end }}
+
+{{ define "sum_nav" }}
+    <nav class="query_nav">
+        {{ template "page_row" . }}
+        {{ template "to_cat_view" . }}
+    </nav>
+{{ end }}
+
+{{ define "to_cat_view" }}
+    <a href="/cat/{{ .Query.QueryString }}" class="query_opt">View: Summary</a>
+{{ end }}
+
+{{ define "sum_query_header" }}
+    {{ $cq := .Query.QueryString | fields | sanitizeLabels }}
+    {{ $cleanQuery := join $cq " " }}
+    <header>
+        <h4>
+            <div class="title_section">
+                <a href="/sum/!!_all" id="site_name">{{ .Settings.General.SiteName }}</a>
+                {{ $f := .Query.Filter  | sanitizeLabels }}
+                {{ $m := .Query.Merge   | sanitizeLabels }}
+                {{ $e := .Query.Exclude | sanitizeLabels }}
+                {{ if or $f $m $e }} → {{ end }}
+            </div>
+            <div class="search_tag_list">
+                {{ if $f }}{{ range $f }}{{  template "sum_header_tag" . }}{{ end }}{{ end }}
+                {{ if $m }}{{ range $m }}+{{ template "sum_header_tag" . }}{{ end }}{{ end }}
+                {{ if $e }}{{ range $e }}-{{ template "sum_header_tag" . }}{{ end }}{{ end }}
+            </div>
+        </h4>
+        {{ template "sum_search_box" $cleanQuery }}
+        {{ if .Insecure }}
+            <h3>DEBUG MODE</h3>
+            <h4>If you are running in production, disable
+                the board immediately and consult the
+                documentation.</h4>
+        {{ end }}
+        {{ template "constraints" .Settings }}
+    </header>
+{{ end }}
+
+{{ define "sum_post" }}
+    <div class="thread"
+         data-thread_id="{{ .Id }}"
+         data-random_mark="{{ .RandomMark }}"
+         data-locked="{{ .Locked }}">
+        {{ template "sum_tag_list" . }}
+
+        {{ $fp := index .Posts 0 }}
+        {{ $fp.Bytes | bytesToHtml }}
+
+        {{ template "summary_omission" . }}
+
+        {{ $tail := summaryTail . }}
+        {{ range $tail }}
+            {{ .Bytes | bytesToHtml }}
+        {{ end }}
+    </div>
+{{ end }}
+
+{{ define "sum_tag_list" }}
+    {{ $cleanLabels := .Tags | sanitizeLabels }}
+    <div class="tag_list">{{ range $cleanLabels }}<a href="/sum/{{ . | uriEncode }}">{{ . }}</a> {{ end }}</div>
+{{ end }}
+
+{{ define "summary_omission" }}
+    {{ $omitted := omissionCount . }}
+    {{ if $omitted.Posts }}
+            <article class="post_row omission" data-thread_id="{{ .Id }}" data-omission="true">
+                <div class="header_col">
+                    <aside class="post_header"></aside>
+                </div>
+                <div class="post_right">
+                    <a  class="post_link post_no"></a>
+                    <a  class="post_link reply_target"></a>
+                    <a href="/t/{{ .Id }}">
+                        <div class="comment_body">
+                            {{ $omitted.Posts }} posts omitted.
+                            {{ with  $omitted.Media }}
+                                (
+                                  {{ with $omitted.Image }}images: {{ . }}{{ end }}
+                                  {{ with $omitted.Video }}video: {{ . }}{{ end }}
+                                  {{ with $omitted.Audio }}audio: {{ . }}{{ end }}
+                                )
+                            {{ end }}
+                        </div>
+                    </a>
+                </div>
+            </article>
+    {{ end }}
+{{ end }}
+
+{{ define "sum_search_box" }}
+    <form id="search_box" name="sum_search_box" action="/sum_search">
+        <label>Tag Search: 
+            <input  type="text"
+                    name="query"
+                    id="tag_search"
+                    value="{{ . }}"
+                    list="search_list"
+                    autocomplete="off" />
+        </label>
+    </form>
+
+    <datalist id="search_list" />
+{{ end }}
+
+{{ define "sum_header_tag" }}<a href="/sum/{{ . | uriEncode }}" class="header_tag">{{ . }}</a> {{ end }}

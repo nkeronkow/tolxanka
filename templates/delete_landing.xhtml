@@ -1,0 +1,20 @@
+{{ define "delete_thread" }}<!DOCTYPE html> <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Administrate Posts</title>
+        <link rel="stylesheet" type="text/css" href="/static/board.css" />
+        <script type="application/javascript" src="/static/general.js"></script>
+        <meta charset="UTF-8"/>
+    </head>
+
+    <body>
+        <article id="admin_block">
+            <h3>Delete thread {{ . }}?</h3>
+            <form id="confirm_delete" name="confirm_delete" action="/admin_post_delete_thread" method="POST">
+                <input type="hidden" name="tid" class="tid" value="{{ . }}"/>
+                <input type="submit" id="submit_delete_thread" value="Confirm"/>
+            </form>
+        </article>
+    </body>
+</html>
+{{ end }}
+

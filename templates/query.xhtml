@@ -1,0 +1,185 @@
+{{ define "catalog" }}<!DOCTYPE html>
+    {{ $cq := .Query.QueryString | fields | sanitizeLabels }}
+    {{ $cleanQuery := join $cq " " }}
+
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+        <title>{{ .Settings.General.SiteName }}</title>
+            <link rel="stylesheet" type="text/css" href="/static/board.css" />
+            <script type="application/javascript" src="/static/general.js"></script>
+            <meta charset="UTF-8" />
+        </head>
+
+        <body id="query" class="catalog" data-query="{{ $cleanQuery }}" data-page_type="query">
+            {{ template "cat_query_header" . }}
+            {{ template "catalog_middle" .}}
+            {{ template "query_footer" . }}
+        </body>
+    </html>
+{{ end }}
+
+{{ define "catalog_middle" }}
+    {{ if or .Normal .Sticky }}
+        {{ template "cat_nav" . }}
+        <div id="results">
+            {{ range .Sticky }}<div id="sticky_threads">{{ .CatBytes | bytesToHtml }}</div>{{ end }}
+            {{ range .Normal }}{{ .CatBytes | bytesToHtml }}{{ end }}
+            <div class="result_spacer"></div>
+            <div class="result_spacer"></div>
+            <div class="result_spacer"></div>
+            <div class="result_spacer"></div>
+            <div class="result_spacer"></div>
+            <div class="result_spacer"></div>
+            <div class="result_spacer"></div>
+            <div class="result_spacer"></div>
+            <div class="result_spacer"></div>
+            <div class="result_spacer"></div>
+        </div>
+        {{ template "page_row" . }}
+    {{ else }}
+        <div id="results">
+            <h2 class="no_results">No results.</h2>
+        </div>
+    {{ end }}
+{{ end }}
+
+{{ define "cat_nav" }}
+    <nav class="query_nav">
+        {{ template "page_row" . }}
+        {{ template "to_sum_view" . }}
+    </nav>
+{{ end }}
+
+{{ define "to_sum_view" }}
+    <a href="/sum/{{ .Query.QueryString }}" class="query_opt">View: Catalog</a>
+{{ end }}
+
+
+{{ define "page_row" }}
+    <div class="page_row">
+        {{ if .Normal }}{{ .Pages | bytesToHtml }}{{ end }}
+    </div>
+{{ end }}
+
+{{ define "cat_query_header" }}
+    {{ $cq := .Query.QueryString | fields | sanitizeLabels }}
+    {{ $cleanQuery := join $cq " " }}
+    <header>
+        <h4>
+            <div class="title_section">
+                <a href="/" id="site_name">{{ .Settings.General.SiteName }}</a>
+                {{ $f := .Query.Filter  | sanitizeLabels }}
+                {{ $m := .Query.Merge   | sanitizeLabels }}
+                {{ $e := .Query.Exclude | sanitizeLabels }}
+                {{ if or $f $m $e }} → {{ end }}
+            </div>
+            <div class="search_tag_list">
+                {{ if $f }}{{ range $f }}{{  template "cat_header_tag" . }}{{ end }}{{ end }}
+                {{ if $m }}{{ range $m }}+{{ template "cat_header_tag" . }}{{ end }}{{ end }}
+                {{ if $e }}{{ range $e }}-{{ template "cat_header_tag" . }}{{ end }}{{ end }}
+            </div>
+        </h4>
+        {{ template "cat_search_box" $cleanQuery }}
+        {{ if .Insecure }}
+            <h3>DEBUG MODE</h3>
+            <h4>If you are running in production, disable
+                the board immediately and consult the
+                documentation.</h4>
+        {{ end }}
+        {{ template "constraints" .Settings }}
+    </header>
+{{ end }}
+
+{{ define "query_footer" }}
+    <footer id="query_footer">
+        <div id="footer_left">
+            <div id="xhr_msg_display"></div>
+            {{ .ThreadForm }}
+        </div>
+        <div id="footer_right">
+            <div id="option_cell">
+                <div class="instructions">Mark threads meant to contain images of a sexual or violent nature as NSFW.</div>
+                <label class="mod_option"><input name="nsfw" form="add_post" value="false" type="radio" />Not NSFW</label>
+                <label class="mod_option"><input name="nsfw" form="add_post" value="true" type="radio" />NSFW</label>
+            </div>
+        </div>
+    </footer>
+{{ end }}
+
+
+{{ define "summary_image" }}
+    {{ if .Media }}
+        {{ $img_name := printf "%s/%s" .Media.Hash .MediaName }}
+        <img src="/th/{{ $img_name }}" class="sum_thumb" alt="{{ .MediaName }}"/>
+    {{ else }}No image{{ end }}
+{{ end }}
+
+{{ define "cat_post" }}
+    {{ $fp := index .Posts 0 }}
+    <article class="cat_post">
+        <a href="/t/{{ .Id }}">
+            <figure class="summary_left">
+                {{ template "summary_image" $fp }}
+                <figcaption>{{ .Count.Media }}/{{ .Count.Posts }}</figcaption>
+            </figure>
+        </a>
+        <div class="summary_right">
+            <div class="summary_dateline">
+                {{ if .Nsfw }}  <span class="nsfw_msg"  >NSFW</span>{{ end }}
+                {{ if .Locked }}<span class="locked_msg">LOCKED</span>{{ end }}
+                <span class="updated">{{ .UpdatedString }}</span>
+            </div>
+            <div class="summary_comment {{ if .Nsfw }}nsfw{{ end }}">
+                {{ template "cat_tag_list" . }}
+                <span class="summary">{{ $fp.EscapedComment }}</span>
+            </div>
+        </div>
+    </article>
+{{ end }}
+
+{{ define "cat_tag_list" }}
+    {{ $cleanLabels := .Tags | sanitizeLabels }}
+    <div class="tag_list">{{ range $cleanLabels }}<a href="/cat/{{ . | uriEncode }}">{{ . }}</a> {{ end }}</div>
+{{ end }}
+
+{{ define "cat_search_box" }}
+    <form id="search_box" name="search_box" action="/cat_search">
+        <label>Tag Search: 
+            <input  type="text"
+                    name="query"
+                    id="tag_search"
+                    value="{{ . }}"
+                    list="search_list"
+                    autocomplete="off" />
+        </label>
+    </form>
+
+    <datalist id="search_list" />
+{{ end }}
+
+{{ define "page_nav" }}
+    {{ $current := .Page }}
+    {{ $query := .Query.QueryString }}
+    <nav class="page_list">
+
+        {{ if index .PageRange 0 | eq $current | not }}
+            <a href="/cat/{{ $query }}/{{ add .Page -1 }}" class="arrow">←</a>
+        {{ end }}
+
+        {{ range .PageRange }}
+            {{ if eq . $current }}
+                <div class="page_link_inactive">{{ . }}</div>
+            {{ else }}
+                <a  href="/cat/{{ $query }}/{{ . }}" class="page">{{ . }}</a>
+            {{ end }}
+        {{ end }}
+
+        {{ if len .PageRange | add -1 | index .PageRange | eq $current | not }}
+            <a href="/cat/{{ $query }}/{{ add .Page  1 }}" class="arrow">→</a>
+        {{ end }}
+
+    </nav>
+{{ end }}
+
+{{ define "cat_header_tag" }}<a href="/cat/{{ . | uriEncode }}" class="header_tag">{{ . }}</a> {{ end }}
+

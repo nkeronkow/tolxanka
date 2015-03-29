@@ -1,0 +1,25 @@
+{{ define "report_landing" }}<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Reporting post {{ .Local }}</title>
+        <link rel="stylesheet" type="text/css" href="/static/board.css" />
+        <meta charset="UTF-8" />
+    </head>
+
+    <body>
+        <article class="report_post">
+            <h4>You are reporting post {{ .Local }} in thread {{ .Thread }}. Select a reason.</h4>
+                <form id="report_post" name="report_post" action="/report_post" method="POST">
+                    <section id="report_reasons">
+                        <div class="reason"><label> <input name="report_reason" value="illegal" type="radio"/> Illegal content </label></div>
+                        <div class="reason"><label> <input name="report_reason" value="rule_violation" type="radio"/> Rule violation </label></div>
+                    </section>
+                    <input name="tid" type="hidden" value="{{ .Thread }}" />
+                    <input name="gid" type="hidden" value="{{ .Global }}" />
+                    <input type="submit" id="submit_report" value="Submit"/>
+                </form>
+        </article>
+    </body>
+</html>
+{{ end }}
+

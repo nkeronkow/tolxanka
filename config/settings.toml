@@ -1,0 +1,258 @@
+#
+#
+#           settings.toml - General Tolxanka config file.
+#
+#   This is the main configuration file for the Tolxanka image board. The file
+# itself is in the toml (https://github.com/toml-lang/toml) configuration
+# format. All duration strings are in the format accepted by golang's
+# time.ParseDuration() function (http://golang.org/pkg/time/#ParseDuration).
+#
+#   All toml files in the config/ directory are concatenated together by
+# Tolxanka and read. You may split apart or rename this file as you like.
+# You may not delete any option outright; Tolxanka does not currenty guarantee
+# sane defaults for all options and defaults to golang's zero values for
+# undefined settings. Any changes to configuration files require a restart of
+# the board to take effect.
+#
+
+
+
+# SiteName - Title to display on page headers.
+# ListenPort - Port number for tolxanka to listen for connections.
+# PassthroughDelay - Wait time before redirect on timed message pages
+# AutoDeleteThreshold - Number of reports before a thread is auto-deleted. 
+# PostTimeFormat - Datetime format accompanying posts.
+# SummaryPostTailLength - number of recent posts to display in summary view.
+
+[General]
+SiteName = "Tolxanka Message Board"
+ListenPort = 7842
+PassthroughDelay = "2s"
+AutoDeleteThreshold = 2
+PostTimeFormat = "2006-01-02 Mon 15:04:05"
+SummaryPostTailLength = 5
+
+# SummaryCharLimit - Maximum char length for comment text on catalog posts.
+# PageRange - Number of adjacent pages to show in query view.
+# ThreadsPerPage - Number of threads to show on query pages.
+
+[Catalog]
+SummaryCharLimit = 90
+PageRange = 20
+ThreadsPerPage = 24
+
+# Threads - Maximum number of threads before auto-pruning.
+# PostsPerThread - Maximum number of posts per thread before auto-locking.
+# TagsPerThread - Tags allowed on each new thread.
+# CommentLength - Maximum character limit on posts.
+# TagLength - Maximum character length for individual threads.
+# NewlinesPerPost - Maximum newline characters per post.
+
+[Limit]
+Threads = 750
+PostsPerThread = 200
+TagsPerThread = 10
+CommentLength = 2000
+TagLength = 30
+NewlinesPerPost = 20
+
+# ChallengeLength - Char length of random challenge text for authentication.
+# ChallengeDuration - Length of time to respond to an issued challenge.
+# CookieName - Name of admin cookie to be issued.
+# CookieLifetime - Time before expiration of admin cookie.
+
+[Admin]
+ChallengeLength = 1000
+ChallengeDuration = "1h"
+CookieName = "tlx-staff"
+CookieLifetime = "24h"
+
+# Path - Directory in which uploaded media is stored.
+# ValidReferers - Valid referers for displaying media content.
+# CacheSize - Size of media cache in MB.
+
+[Media]
+Path = "media/"
+ValidReferers = ["192.168.84.76", "meido:7842"]
+CacheSize = 1024
+
+# AcceptedFileFormats - Allowable image formats for upload.
+# ThumbWidth - Width of image/video thumbnails.
+# ThumbHeight - Height of image/video thumbnails.
+# MaxSize - Maximum size of images in MB.
+
+[Image]
+AcceptedFileFormats = [ "image/jpeg", "image/png", "image/gif" ]
+ThumbWidth = 125
+ThumbHeight = 125
+MaxSize = 5
+
+# FfmpegPath - Path to ffmpeg binary.
+# FfprobePath - Path to ffprobe binary.
+# Workers - Maximum number of simultaneous ffmpeg processes.
+# ThumbnailSeekTime - Seek time to thumbnail videos at.
+# AcceptedFileFormats - Allowable video formats for upload.
+# MaxSize - Maximum size of videos in MB.
+
+[Video]
+FfmpegPath = "/usr/bin/ffmpeg"
+FfprobePath = "/usr/bin/ffprobe"
+Workers = 10
+ThumbnailSeekTime = "0s"
+AcceptedFileFormats = [ "video/webm" ]
+MaxSize = 5
+
+# AcceptedCodecs - Allowable audio codecs for upload.
+# AcceptedFileFormats - Allowable audio formats for upload.
+# ThumbnailFile - Path to thumbnail image used for all audio files.
+# MaxSize - Maximum size of audio files in MB.
+
+[Audio]
+AcceptedCodecs = [ "mp3", "vorbis" ]
+AcceptedFileFormats = [ "audio/ogg", "video/ogg", "audio/vorbis", "audio/vorbis-config",
+                        "audio/opus", "audio/mpeg", "audio/MPA", "audio/mpa-robust" ]
+ThumbnailFile = "static/audio_file_icon.png"
+MaxSize = 15
+
+# DuplicateFields - Number of spam trap dummy fields.
+# FieldDisplay - Field markers corrresponding to displayable fields.
+# FieldHide - Field markers corresponding to hidden fields.
+# FieldPrefix - Prefix for input fields.
+# ThreadFormLifeTime - Time before expiration of query post form.
+
+[SpamTrap]
+DuplicateFields = 5
+FieldDisplay = [1, 4, 6, 7, 9, 10, 11, 13]
+FieldHide = [0, 2, 3, 5, 8, 12, 14, 15]
+FieldPrefix = "POX"
+ThreadFormLifetime = "1h"
+
+# Addr - Destination Email address for notifications.
+# FromEmail - Sending email address for notifications.
+# Password - Password for FromEmail address.
+# SMTPServer - SMTP server address for FromEmail address.
+
+[Notify]
+Addr = "aaaaaaaaaa@bbbbbb.ccc"
+FromEmail = "aaaaaaaaaa@bbbbbb.ccc"
+Password = "1234"
+SMTPServer = "asdf.lwakejr.dsf:3234"
+
+# Name - File name of on-disk SQLite database.
+# DumpInterval - Length of time between flushing new posts to on-disk DB.
+# BanQueueSize - Length of database queue for new bans.
+# PostQueueSize - Length of database queue for new posts.
+# ThreadQueueSize - Length of database queue for new threads.
+# MediaQueueSize - Length of database queue for new media files.
+
+[Database]
+Name = "persist.db"
+DumpInterval = "5s"
+BanQueueSize = 100
+PostQueueSize = 10000
+ThreadQueueSize = 1000
+MediaQueueSize = 1000
+
+
+# Thresholds - Constraints on user activity within a given time period.
+# Times - Maximum number of occurences for a given duration.
+# Duration - A length of time in which occurences cannot exceed a given number. 
+
+# PageRequest - Thread and query page requests.
+# NewThread - Creation of new threads.
+# NewPost - New posts submitted.
+# ReportPost - Reporting posts.
+
+[Thresholds.PageRequest]
+Times = 100
+Duration = "20s"
+
+[Thresholds.NewThread]
+Times = 200
+Duration = "15m"
+
+[Thresholds.NewPost]
+Times = 10
+Duration = "1m"
+
+[Thresholds.ReportPost]
+Times = 10
+Duration = "30m"
+
+
+# WordFilters - Filters for prohibitted text in new posts.
+# Pattern - Regexp to match against.
+# Ban - Corresonding ban to issue.
+
+[[WordFilters]]
+Pattern = 'nimp\.org'
+Ban = "BlockedUrl"
+    
+# BanReasons - Definitions of pre-established ban reasons.
+# Description - Long-form description of ban reason.
+# Length - Ban length in days.
+
+[BanReasons.BlockedUrl]
+Description = "Posting a banned URL"
+Length = 1
+
+[BanReasons.Cp]
+Description = "Child pornography"
+Length = 3650000
+
+[BanReasons.Advertising]
+Description = "Commercial spam / Referal links / Soliciting / Begging"
+Length = 3650000
+
+[BanReasons.Spam]
+Description = "General spam / flooding"
+Length = 3650000
+
+[BanReasons.Raid]
+Description = "Raiding and/or calls to invasion of privacy"
+Length = 3650000
+
+[BanReasons.Proxy]
+Description = "Open proxy / Tor exit node"
+Length = 3650000
+
+[BanReasons.Evasion]
+Description = "Ban evasion"
+Length = 3650000
+
+[BanReasons.Underage]
+Description = "Underage"
+Length = 4770
+
+[BanReasons.Illegal]
+Description = "Discussion of illegal activity"
+Length = 30
+
+[BanReasons.Shock]
+Description = "Shock images"
+Length = 7
+
+[BanReasons.Meta]
+Description = "Off-topic meta-discussion"
+Length = 3
+
+[BanReasons.OffTopic]
+Description = "Off-topic posting"
+Length = 1
+
+[BanReasons.FalseReport]
+Description = "False post reporting"
+Length = 1
+
+[BanReasons.Avatar]
+Description = "Unwarranted self-identification / Avatars / Signatures"
+Length = 1
+
+[BanReasons.Nsfw]
+Description = "NSFW content posted in a non-NSFW thread"
+Length = 1
+
+[BanReasons.Dos]
+Description = "Abnormal rate of HTTP traffic"
+Length = 1
+

@@ -1,0 +1,36 @@
+{{ define "sticky_landing" }}<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Stickying thread {{ .Id }}</title>
+        <link rel="stylesheet" type="text/css" href="/static/board.css" />
+        <meta charset="UTF-8" />
+    </head>
+
+    <body>
+        <article class="msg">
+            <h4>Select tags under which to sticky this thread.</h4>
+            <form id="sticky" name="sticky" action="/admin_sticky_thread" method="POST">
+                {{ range .Tags }}
+                    <label>
+                        <input type="checkbox" name="tag" value="{{ . }}"/>
+                        {{ . }}
+                    </label>
+                    <br/>
+                {{ end }}
+
+                {{ range .StickyTags }}
+                    <label>
+                        <input  type="checkbox" name="tag" value="{{ . }}" checked="true"/> 
+                        {{ . }}
+                    </label>
+                    <br/>
+                {{ end }}
+
+                <input type="submit" id="submit_post" value="Submit"/>
+                <input name="thread_no" type="hidden" value="{{ .Id }}"/>
+            </form>
+        </article>
+    </body>
+</html>
+{{ end }}
+

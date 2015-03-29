@@ -1,0 +1,137 @@
+{{ define "message" }}{{ . }}{{ end }}
+
+{{ define "thread" }}<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        {{ $first := index .Thread.Posts 0 }}
+        <title>{{ if $first.Comment }}{{ truncate 100 $first.Comment }}{{ else }}Thread ({{ .Thread.Id }}){{ end }}</title>
+        <link rel="stylesheet" type="text/css" href="/static/board.css" />
+        <script type="application/javascript" src="/static/general.js"></script>
+        <meta charset="UTF-8" />
+    </head>
+
+    <body id="thread" data-page_type="thread">
+        <header>
+            {{ $cleanLabels := labelsToStrings .Thread.Tags | sanitizeLabels }}
+            <h4>
+                <div class="title_section">
+                    <a href="/" id="site_name">{{ .Settings.General.SiteName }}</a> →
+                </div>
+                <div class="search_tag_list">
+                    {{ range $cleanLabels }}{{ template "cat_header_tag" . }}{{ end }}
+                </div>
+            </h4>
+            {{ template "cat_search_box" }}
+            {{ template "constraints" .Settings }}
+        </header>
+
+        <div class="thread"
+             data-thread_id="{{ .Thread.Id }}"
+             data-random_mark="{{ .Thread.RandomMark }}"
+             data-locked="{{ .Thread.Locked }}">
+            {{ .Thread.PostsBytes | bytesToHtml }}
+        </div>
+
+        <footer id="thread_footer">
+            {{ if .Thread.Locked }}
+                <h3 class="locked_msg">Thread is locked.</h3>
+            {{ end }}
+
+            <div id="footer_left" {{ if .Thread.Locked }}style="display: none"{{ end }}>
+                <div id="xhr_msg_display">{{ if .Thread.Nsfw | not }}This is an SFW thread.{{ end }}</div>
+                        {{ .Thread.PostForm | bytesToHtml }}
+            </div>
+            <div id="footer_right" {{ if .Thread.Locked }}style="display: none"{{ end }}>
+            </div>
+        </footer>
+        <span class="bottom"></span>
+    </body>
+</html>
+{{ end }}
+
+{{ define "post" }}
+<article class="post_row"
+         data-thread_id="{{ .ParentThread }}"
+         data-post_gid="{{ .GlobalId }}"
+         data-post_lid="{{ .LocalId }}">
+    <div class="header_col" >
+        <aside      class="{{ with .Media }}{{ .MediaType }}_highlight{{ end }} post_header {{ if .Role.Title }}staff_post{{ end }}"
+                        {{ if .Role.Color }}style="border-color: {{ .Role.Color }};"{{ end }}
+                        data-ident="{{ .Han.Ident }}"
+                        data-user="{{ .Han.Seq }}"
+                        data-char="{{ .Han.Char }}"
+                        data-hue="{{ .Han.Color.Hue }}"
+                        data-saturation="{{ .Han.Color.Saturation }}"
+                        data-lightness="{{ .Han.Color.Lightness }}"
+                        data-media_type="{{ with .Media }}{{ .MediaType }}{{ end }}">
+                <a id="{{ .LocalId }}"></a>
+                <span class="post_misc">
+                    {{ .TimeString }}
+                    <span  class="han"
+                           style="color: hsl({{ .Han.Color.Hue }}, {{ .Han.Color.Saturation }}% ,{{ .Han.Color.Lightness }}%)" >{{ .Han.Char }}</span>
+                </span>
+
+                {{ if .Role.Title }}
+                    <span class="staff_post" style="color: {{ .Role.Color }};">
+                              {{ .Role.Title }}
+                    </span>
+                {{ end }}
+
+                {{ if .AdminInfo }}
+                    <span class="user_ip">
+                        <a  href="/t/{{ .ParentThread }}#{{ .LocalId }}">Original</a>
+                        {{ .UserAddr }}
+                    </span>
+                {{ end }}
+
+                {{ if .Media }}
+                    {{ $img_path := printf "%s/%s" .Media.Hash .MediaName }}
+                    {{ $img_uri := printf "%s/%s" .Media.Hash .EscapedImageName }}
+                    <br/>
+                    <a href="/i/{{ $img_uri }}">
+                        <img src="/th/{{ $img_path }}" class="thumb" alt="{{ .MediaName }}" data-path="{{ $img_path }}"/>
+                    </a>
+                {{ end }}
+            </aside>
+        </div>
+
+        <div class="post_right">
+            <a  href="/t/{{ .ParentThread }}#{{ .LocalId }}"
+                class="post_link post_no">
+                {{ .LocalId }}
+            </a>
+            <a  href="/t/{{ .ParentThread }}#{{ .ReplyTo }}"
+                class="post_link reply_target"
+                data-target="{{ .ReplyTo }}">
+                {{ if .ReplyTo }}{{ .ReplyTo }}{{ end }}
+            </a>
+
+            <div class="comment_body">
+                {{ if .Media }}
+                        {{ $img_path := printf "%s/%s" .Media.Hash .MediaName }}
+                        <a href="/i/{{ $img_path }}" class="media_info">{{ truncate 100 .MediaName }} {{ .Media.InfoString }}</a>
+                {{ end }}
+                <span class="comment_text">{{ .EscapedComment }}</span>
+                {{ range .Replies }}{{ template "reply_link" . }}{{ end }}
+            </div>
+        </div>
+
+    <div class="action_indicator"></div>
+    <a href="/report_post_landing/{{ .GlobalId }}/{{ .ParentThread }}/{{ .LocalId }}" class="side_control report_post">!</a>
+    <a  href="/t/{{ .ParentThread }}?pivot={{ .LocalId }}"
+        class="side_control fold_posts">
+        ◇
+    </a>
+</article>
+{{ end }}
+
+{{ define "reply_link" }}<a href="/t/{{ .Thread }}#{{ .Local }}" class="reply_link" data-reply="{{ .Local }}">→{{ .Local }}</a>{{ end }}
+{{ define "constraints" }}<span id="constraints"
+                                data-comment_length="{{ .Limit.CommentLength }}"
+                                data-image_size="{{ .Image.MaxSize }}"
+                                data-image_formats="{{ .Image.AcceptedFileFormats }}"
+                                data-video_size="{{ .Video.MaxSize }}"
+                                data-video_formats="{{ .Video.AcceptedFileFormats }}"
+                                data-audio_size="{{ .Audio.MaxSize }}"
+                                data-audio_formats="{{ .Audio.AcceptedFileFormats }}" />
+{{ end }}

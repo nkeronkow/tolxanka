@@ -1,0 +1,59 @@
+{{ define "antispam_thread_form" }}
+<form id="add_post" name="add_post" action="/new_thread" enctype="multipart/form-data" method="POST">
+    <table id="post_table">
+        <tr>
+            <td class="comment_label">Tags: </td>
+            <td colspan="2">
+                {{ .TagEntry }}
+            </td>
+        </tr>
+        <tr id="comment_row">
+            <td class="comment_label">Comment: </td>
+            <td colspan="2">{{ .Comment }}</td>
+        </tr>
+
+        <tr> 
+            <td class="comment_label">File:</td>
+            <td id="file_cell">{{ .Upload }}</td>
+            <td id="submit_cell"><input type="submit" id="submit_post" value="Submit"/></td>
+            <td><input name="user_num" id="user_num" type="hidden" value="0"/></td>
+        </tr>
+    </table>
+
+</form>
+{{ end }}
+
+{{ define "antispam_post_form" }}
+<form id="add_post" name="add_post" action="/post" enctype="multipart/form-data" method="POST">
+    <table id="post_table">
+        <tr id="comment_row">
+            <td class="comment_label">
+                Comment:
+                <div id="this_han" class="han highlighter" ></div>
+            </td>
+            <td colspan="4">{{ .Comment }}</td>
+        </tr>
+        <tr> 
+            <td class="comment_label">Reply to:</td>
+            <td id="reply_to_cell">{{ .ReplyTo }}</td>
+            <td class="comment_label">Image:</td>
+            <td id="file_cell">{{ .Upload }}</td>
+            <td id="submit_cell"><input type="submit" id="submit_post" value="Submit"/></td>
+        </tr>
+    </table>
+    <input name="thread_no" type="hidden" value="{{ .Thread }}"/>
+    <input name="user_num" id="user_num" type="hidden" value="0"/>
+</form>
+{{ end }}
+
+{{ define "comment" }}  <textarea name="{{ . }}" id="{{ . }}" class="comment"  cols="60" rows="5"></textarea> {{ end }}
+{{ define "reply_to" }} <input name="{{ . }}" id="{{ . }}" class="reply_to" type="text" maxlength="3" /> {{ end }}
+{{ define "upload" }}   <input name="{{ . }}" id="{{ . }}" class="upload" type="file" /> {{ end }}
+{{ define "tag_entry" }}
+    <input  name="{{ . }}" 
+            id="{{ . }}"
+            class="tag_entry"
+            type="text"
+            placeholder='Separate by whitespace, e.g. "tag_1 tag_2 tag_3", etc.'
+            list="search_list" />
+{{ end }}

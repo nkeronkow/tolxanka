@@ -1,0 +1,22 @@
+{{ define "banned" }}<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>{{ .Settings.General.SiteName }}</title>
+        <link rel="stylesheet" type="text/css" href="/static/board.css" />
+        <meta charset="UTF-8"/>
+    </head>
+
+    <body>
+        <article class="msg">
+            <h2>Banned</h2>
+            <ul id="ban_explanation">
+                <li>IP:         <span class="list_value">{{ .Ban.Addr }}</span></li>
+                <li>Reason:     <span class="list_value">{{ .Ban.Reason.Description }}</span></li>
+                <li>Start:      <span class="list_value">{{ .Ban.Start }}</span></li>
+                <li>End:        <span class="list_value">{{ .Ban.End }}</span></li>
+                <li>Duration:   <span class="list_value">{{ .Ban.Duration }}</span></li>
+            </ul>
+        </article> 
+    </body>
+</html>
+{{ end }}
