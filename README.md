@@ -58,8 +58,12 @@ Dependencies
 Installation
 ------------
 
-1. cd $GOPATH/src
-2. git clone https://github.com/nkeronkow/tolxanka.git
+1. `cd $GOPATH/src`
+2. `git clone https://github.com/nkeronkow/tolxanka.git`
+3. `cd tolxanka`
+4. `go install`
+5. copy resulting binary along with the data folder to the same directory.
+6. Run the executable.
 
 Setting Up Administrative Roles
 -------------------------------
