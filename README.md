@@ -61,9 +61,8 @@ Installation
 2. `git clone https://github.com/nkeronkow/tolxanka.git`
 3. `cd tolxanka/application`
 4. `go install`
-5. Copy resulting binary from `$GOPATH/bin` along with the data
-   directory into the same location with each other.
-6. Run the executable.
+5. Place the executable in the same directory as the `config`, `media`,
+   `static` and `templates` directory and run it.
 
 Setting Up Administrative Roles
 -------------------------------
