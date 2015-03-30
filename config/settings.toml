@@ -72,7 +72,7 @@ CookieLifetime = "24h"
 # CacheSize - Size of media cache in MB.
 
 [Media]
-Path = "data/media/"
+Path = "media/"
 ValidReferers = ["192.168.84.76", "meido:7842"]
 CacheSize = 1024
 

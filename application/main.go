@@ -19,7 +19,7 @@ import (
 	"time"
 )
 
-const configDir = "data/config/"
+const configDir = "config"
 
 var staffSessions = sessions.NewCookieStore()
 
@@ -117,6 +117,7 @@ func parseTemplates() {
 func main() {
 	log.Println("Starting Tolxanka.")
 	rand.Seed(time.Now().UTC().UnixNano())
+
 	setConfiguration()
 	log.Printf("Using configuration:\n%s\n", settings.String())
 
