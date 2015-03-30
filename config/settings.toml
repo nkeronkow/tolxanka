@@ -52,9 +52,9 @@ ThreadsPerPage = 24
 Threads = 750
 PostsPerThread = 200
 TagsPerThread = 10
-CommentLength = 2000
+CommentLength = 3000
 TagLength = 30
-NewlinesPerPost = 20
+NewlinesPerPost = 40
 
 # ChallengeLength - Char length of random challenge text for authentication.
 # ChallengeDuration - Length of time to respond to an issued challenge.
