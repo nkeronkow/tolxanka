@@ -1,8 +1,8 @@
 package main
 
 import (
-	"code.google.com/p/go.crypto/openpgp"
-	"code.google.com/p/go.net/websocket"
+	"golang.org/x/crypto/openpgp"
+	"golang.org/x/net/websocket"
 	"database/sql"
 	"github.com/gorilla/context"
 	"github.com/gorilla/sessions"
