@@ -65,7 +65,7 @@ func watchSignals() chan os.Signal {
 
 func installHandlers() {
 	// Handlers accessing threshold restricted resources
-	http.Handle("/static/", http.FileServer(http.Dir("./data/")))
+	http.Handle("/static/", http.FileServer(http.Dir(".")))
 	handleThreshold("/", showTagQuery(0, "!!_all", "catalog"))
 	handleThreshold("/cat/", showCatQueryFromURI)
 	handleThreshold("/sum/", showSumQueryFromURI)

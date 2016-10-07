@@ -58,11 +58,11 @@ Dependencies
 Installation
 ------------
 
-2. `git clone https://github.com/nkeronkow/tolxanka.git`
-3. `cd tolxanka/application`
-4. `go install`
-5. Place the executable in the same directory as the `config`, `media`,
-   `static` and `templates` directory and run it.
+2. `go get github.com/nkeronkow/tolxanka/...`
+3. `cd $GOPATH/src/github.com/nkeronkow/tolxanka/`
+4. `go build -o tolxanka`
+5. Update the ValidReferers field in config/settings.toml to match your
+   server address.
 
 Setting Up Administrative Roles
 -------------------------------
