@@ -73,7 +73,7 @@ CookieLifetime = "24h"
 
 [Media]
 Path = "media/"
-ValidReferers = ["192.168.84.32", "mu:7842"]
+ValidReferers = ["192.168.84.32", "mu:7842", "mu.mbase.int:7842"]
 CacheSize = 1024
 
 # AcceptedFileFormats - Allowable image formats for upload.

@@ -13,14 +13,12 @@
     <body id="thread" data-page_type="thread">
         <header>
             {{ $cleanLabels := labelsToStrings .Thread.Tags | sanitizeLabels }}
-            <h4>
-                <div class="title_section">
-                    <a href="/" id="site_name">{{ .Settings.General.SiteName }}</a> →
-                </div>
-                <div class="search_tag_list">
-                    {{ range $cleanLabels }}{{ template "cat_header_tag" . }}{{ end }}
-                </div>
-            </h4>
+            <span class="title_section">
+                <a href="/" id="site_name">{{ .Settings.General.SiteName }}</a> →
+            </span>
+            <span class="search_tag_list">
+                {{ range $cleanLabels }}{{ template "cat_header_tag" . }}{{ end }}
+            </span>
             {{ template "cat_search_box" }}
             {{ template "constraints" .Settings }}
         </header>

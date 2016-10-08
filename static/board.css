@@ -22,33 +22,36 @@ header {
     width: 100%;
     background-color: #121212;
     color: white;
+    font-weight: bold;
     border-bottom: 0.2em solid #cb4b16;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
     margin-bottom: 0.25em;
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
 }
 
-div.title_section {
-    float: left;
-    margin-right: 0.75em;
+span.title_section {
+    margin-right: 0.5em;
 }
 
-div.search_tag_list {
-    float: left;
-    width: 37.5em;
-    padding-bottom: 0.25em;
+span.search_tag_list {
+    flex: 1 0 auto;
 }
 
-header a#site_name {
-    margin-left: 0.75em;
+form#search_box {
+    margin-right: 1em;
+    font-weight: normal;
 }
 
 a.header_tag {
     color: white;
 }
 
-form#search_box {
-    position: absolute;
-    top: 0.5em;
-    right: 1em;
+input#tag_search {
+    height: 1.25em;
+    border: 1px solid grey;
 }
 
 footer {
@@ -68,8 +71,8 @@ div#footer_right {
     align-content: center;
 }
 
-footer#query_footer form#add_post { width: 45em; }
-footer#thread_footer form#add_post { width: 45em; }
+/*footer#query_footer form#add_post { width: 45em; }*/
+/*footer#thread_footer form#add_post { width: 45em; }*/
 
 form#add_post {
     background-color: #eee8d5;
@@ -146,6 +149,7 @@ article.post_row {
     width: 100%;
     max-width: 100%;
     display: flex;
+    align-items: stretch;
 }
 
 div.header_col {
@@ -160,10 +164,9 @@ div.header_col {
 }
 
 div.post_right {
-    height: 100%;
     display: flex;
     flex-direction: row;
-    flex: 0 1 80%;
+    flex: 0 1 100%;
 }
 
 div#sticky_threads {
@@ -274,7 +277,7 @@ div.summary_comment {
 }
 
 span.updated {
-    font-size: .8em;
+    font-size: 12px;
     font-weight: normal;
     color: #cb4b16;
     text-align: right;
@@ -353,9 +356,10 @@ a.media_info {
     font-size: 0.85em;
 }
 
-img.full {
+.full {
     display: block;
     margin-bottom: 0.5em;
+    margin-right: 0.5em;
     cursor: pointer;
 }
 
@@ -368,12 +372,14 @@ td.comment { padding-left: 0.3em; }
     padding-top: 0.5em;
     text-align: center;
     font-family: monospace;
-    font-size: 0.85em;
+    /*font-size: 0.85em;*/
+    font-size: 13px;
     font-weight: bold;
     background-color: gray;
     color: white;
-    padding-left: .3em;
-    padding-right: .3em;
+    /*padding-left: .3em;*/
+    /*padding-right: .3em;*/
+    width: 30px;
     cursor: pointer;
     margin-left: 2px;
 }
@@ -385,8 +391,8 @@ td.comment { padding-left: 0.3em; }
 }
 
 .side_control {
-    min-width: 1.25em;
-    font-size: 1.25em;
+    width: 30px;
+    font-size: 20px;
     cursor: pointer;
     padding: 0em;
     margin: 0em;
@@ -436,7 +442,7 @@ div.action_indicator {
     color: black;
     vertical-align: middle;
     line-height: 1em;
-    font-size: 1.05em;
+    font-size: 15px;
     font-family: monospace;
     font-weight: bold;
     padding: 0em;
@@ -500,7 +506,6 @@ aside.audio_highlight img.thumb {
 
 audio, video {
     display: block;
-    margin: 0.75em;
 }
 
 span.spoiler        { background-color: black; color: black; }
@@ -510,9 +515,10 @@ code { white-space: pre-wrap; }
 textarea {
     font-family: sans-serif;
     font-size: .95em;
+    width: 35em;
 }
 
-input.tag_entry { width: 99%; }
+input.tag_entry { width: 30em; }
 input.reply_to { width: 2.5em; }
 label#nsfw_label {
     height: 1.5em;
@@ -620,7 +626,6 @@ a.reply_link.hidden { color: gray; }
 
 nav.page_list {
     padding: .2em;
-    max-width: 40%;
 }
 
 table#post_table    { font-weight: bold; margin-bottom:10px; clear: both;}
@@ -677,8 +682,8 @@ span.list_value {
 .omission .header_col,
 .omission .comment_body {
     background-color: gray;
-    padding-top: 0.1em;
-    padding-bottom: 0.1em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
 }
 
 .omission .comment_body {

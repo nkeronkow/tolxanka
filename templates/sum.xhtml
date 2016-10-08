@@ -52,20 +52,18 @@
     {{ $cq := .Query.QueryString | fields | sanitizeLabels }}
     {{ $cleanQuery := join $cq " " }}
     <header>
-        <h4>
-            <div class="title_section">
-                <a href="/sum/!!_all" id="site_name">{{ .Settings.General.SiteName }}</a>
-                {{ $f := .Query.Filter  | sanitizeLabels }}
-                {{ $m := .Query.Merge   | sanitizeLabels }}
-                {{ $e := .Query.Exclude | sanitizeLabels }}
-                {{ if or $f $m $e }} → {{ end }}
-            </div>
-            <div class="search_tag_list">
-                {{ if $f }}{{ range $f }}{{  template "sum_header_tag" . }}{{ end }}{{ end }}
-                {{ if $m }}{{ range $m }}+{{ template "sum_header_tag" . }}{{ end }}{{ end }}
-                {{ if $e }}{{ range $e }}-{{ template "sum_header_tag" . }}{{ end }}{{ end }}
-            </div>
-        </h4>
+        <span class="title_section">
+            <a href="/sum/!!_all" id="site_name">{{ .Settings.General.SiteName }}</a>
+            {{ $f := .Query.Filter  | sanitizeLabels }}
+            {{ $m := .Query.Merge   | sanitizeLabels }}
+            {{ $e := .Query.Exclude | sanitizeLabels }}
+            {{ if or $f $m $e }} → {{ end }}
+        </span>
+        <span class="search_tag_list">
+            {{ if $f }}{{ range $f }}{{  template "sum_header_tag" . }}{{ end }}{{ end }}
+            {{ if $m }}{{ range $m }}+{{ template "sum_header_tag" . }}{{ end }}{{ end }}
+            {{ if $e }}{{ range $e }}-{{ template "sum_header_tag" . }}{{ end }}{{ end }}
+        </span>
         {{ template "sum_search_box" $cleanQuery }}
         {{ if .Insecure }}
             <h3>DEBUG MODE</h3>
