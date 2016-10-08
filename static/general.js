@@ -168,6 +168,7 @@ function insertFullVideo(row, thumb) {
     vid.setAttribute("autoplay", true);
     vid.setAttribute("controls", true);
     vid.setAttribute("loop", true);
+    vid.muted = true;
 }
 
 function insertFullAudio(row, thumb) {
