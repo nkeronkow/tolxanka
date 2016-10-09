@@ -61,6 +61,7 @@ footer {
     display: flex;
     flex-direction: row;
     align-content: stretch;
+    min-height: 12em;
 }
 
 div#footer_right {
@@ -148,6 +149,7 @@ article.post_row {
     width: 100%;
     max-width: 100%;
     display: flex;
+    flex: 0 0 auto;
     align-items: stretch;
 }
 
@@ -165,7 +167,7 @@ div.header_col {
 div.post_right {
     display: flex;
     flex-direction: row;
-    flex: 0 1 100%;
+    flex: 1 0 100%;
 }
 
 div#sticky_threads {
@@ -294,13 +296,12 @@ body.summary div#results { flex-flow: column wrap; }
 
 div.thread {
     display: flex;
-    flex-grow: 1;
+    flex: 1 0 auto;
     flex-flow: column;
 
     padding-left: 0.5em;
     padding-right: 0.5em;
 }
-
 
 article.cat_post, div.result_spacer {
     height: 129px;
