@@ -68,6 +68,7 @@ Setting Up Administrative Roles
 -------------------------------
 
 - First, create a gpg keypair using `gpg --gen-key`.
+- Export using `gpg --export --armor`
 - Enter your admin info and public key into config/admin.toml, following the
   same format as the example entry.
 - Install tlxadmin/txladmin.xpi.
