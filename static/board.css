@@ -167,7 +167,7 @@ div.header_col {
 div.post_right {
     display: flex;
     flex-direction: row;
-    flex: 1 0 100%;
+    flex: 1 1 100%;
 }
 
 div#sticky_threads {
