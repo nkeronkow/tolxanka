@@ -25,8 +25,8 @@ Features
 - User banning
 - Several levels of caching of templated HTML for higher responsiveness
 - Persistence using SQLite
-- Firefox admin extension
 - PGP challenge/response admin authentication
+- Inline admin extension
 - Standard admin tasks (thread or post deletion, locking, stickying)
 - Fine-grained, administratively defined staff roles
 - Configurable user action restriction thresholds
