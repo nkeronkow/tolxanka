@@ -1,5 +1,6 @@
 "use strict"
 
+var adminRights = {};
 var global;
 
 function defineGlobals() {
@@ -944,6 +945,20 @@ function threadInit() {
     }
 }
 
+function loadRights() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/admin_rights", true);
+    xhr.onload = function (e) {
+        if (xhr.status == 200) {
+            adminRights = JSON.parse(xhr.responseText);
+            var url = "/static/amend.js";
+            var newScript = document.createElement("script");
+            document.body.appendChild(newScript).src = url;
+        }
+    }
+    xhr.send();
+}
+
 function main() {
     defineGlobals();
 
@@ -957,6 +972,7 @@ function main() {
 
     addCommentHandlers();
     qsael(document, "input#tag_search", "focus", loadAutoComplete, false);
+    loadRights();
 }
 
 window.addEventListener("load", main, false);   
