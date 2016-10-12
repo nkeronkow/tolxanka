@@ -71,9 +71,7 @@ Setting Up Administrative Roles
 - Export using `gpg --export --armor`
 - Enter your admin info and public key into config/admin.toml, following the
   same format as the example entry.
-- Install tlxadmin/txladmin.xpi.
-- You will be presented with a "Login" link in the bottom right of any query
-  or thread page. Click it to log in. You'll be given random challenge text.
+- Visit the `/admin_login` page.
 - Run `gpg -asb` in a terminal window.
 - Copy paste the challenge text into the terminal window and Ctrl-D twice.
 - Copy paste the generated response in to the bottommost field.

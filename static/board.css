@@ -8,7 +8,8 @@ body {
     display: flex;
     flex-direction: column;
 
-    /* Because Chrome's flexbox implementation is violently retarded */
+    /* Because flexbox in Chrome is retarded */
+    /* TODO: doesn't actual work */
     height: auto;
 } 
 
