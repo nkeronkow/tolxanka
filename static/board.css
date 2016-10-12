@@ -7,6 +7,9 @@ body {
     font-size: 0.9em;
     display: flex;
     flex-direction: column;
+
+    /* Because Chrome's flexbox implementation is violently retarded */
+    height: auto;
 } 
 
 div.wrapper {
@@ -288,7 +291,8 @@ span.updated {
 
 div#results {
     display: flex;
-    flex-grow: 1;
+    flex: 0 1 100%;
+    align-content: flex-start;
 }
 
 body.catalog div#results { flex-flow: row wrap; }
@@ -305,9 +309,9 @@ div.thread {
 
 article.cat_post, div.result_spacer {
     height: 129px;
-    margin-bottom: 0.5em;
-    margin-top: 0.5em;
-    margin-right: 0.4em;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    margin-right: 6px;
     overflow: hidden;
 
     flex-basis: 22em;

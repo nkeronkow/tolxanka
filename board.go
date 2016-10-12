@@ -79,7 +79,6 @@ func postThread(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tags := strings.Fields(r.Form.Get("tag_entry"))
-	log.Println("nsfw: " + r.Form.Get("nsfw"))
 
 	switch r.Form.Get("nsfw") {
 	case "true":
