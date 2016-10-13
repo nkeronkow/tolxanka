@@ -9,8 +9,9 @@ body {
     flex-direction: column;
 
     /* Because flexbox in Chrome is retarded */
-    /* TODO: doesn't actual work */
     height: auto;
+    min-height: 100vh;
+    
 } 
 
 div.wrapper {
