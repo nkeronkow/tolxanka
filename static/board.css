@@ -7,11 +7,11 @@ body {
     font-size: 0.9em;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 
     /* Because flexbox in Chrome is retarded */
     height: auto;
     min-height: 100vh;
-    
 } 
 
 div.wrapper {
