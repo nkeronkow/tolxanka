@@ -46,14 +46,9 @@
 {{ define "cat_nav" }}
     <nav class="query_nav">
         {{ template "page_row" . }}
-        {{ template "to_sum_view" . }}
+        <a href="/sum/{{ .Query.QueryString }}" class="query_opt">View: Catalog</a>
     </nav>
 {{ end }}
-
-{{ define "to_sum_view" }}
-    <a href="/sum/{{ .Query.QueryString }}" class="query_opt">View: Catalog</a>
-{{ end }}
-
 
 {{ define "page_row" }}
     <div class="page_row">
@@ -97,7 +92,7 @@
         <div id="footer_right">
             <div id="option_cell">
                 <div class="instructions">Mark threads meant to contain images of a sexual or violent nature as NSFW.</div>
-                <label class="mod_option"><input name="nsfw" form="add_post" value="false" type="radio" />Not NSFW</label>
+                <label class="mod_option"><input name="nsfw" form="add_post" value="false" type="radio" />SFW</label>
                 <label class="mod_option"><input name="nsfw" form="add_post" value="true" type="radio" />NSFW</label>
             </div>
         </div>
@@ -142,6 +137,11 @@
 
 {{ define "cat_search_box" }}
     <form id="search_box" name="search_box" action="/cat_search">
+        <label id="nsfw_label">NSFW:
+            <input type="checkbox" value="checked"
+                   name="nfsw_checkbox" id="nsfw_checkbox"/>           
+        </label>
+
         <label>Tag Search: 
             <input  type="text"
                     name="query"

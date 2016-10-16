@@ -735,5 +735,5 @@ nav.query_nav {
     margin: 0.25em 0em;
     font-size: 0.9em;
     font-weight: bold;
-    align-self: flex-start;
+    align-self: flex-end;
 }

@@ -40,12 +40,8 @@
 {{ define "sum_nav" }}
     <nav class="query_nav">
         {{ template "page_row" . }}
-        {{ template "to_cat_view" . }}
+        <a href="/cat/{{ .Query.QueryString }}" class="query_opt">View: Summary</a>
     </nav>
-{{ end }}
-
-{{ define "to_cat_view" }}
-    <a href="/cat/{{ .Query.QueryString }}" class="query_opt">View: Summary</a>
 {{ end }}
 
 {{ define "sum_query_header" }}
@@ -128,6 +124,12 @@
 
 {{ define "sum_search_box" }}
     <form id="search_box" name="sum_search_box" action="/sum_search">
+        <label id="nsfw_label">NSFW:
+            <input type="checkbox" value="checked"
+                   name="show_nsfw" id="show_nsfw"/>           
+        </label>
+
+        </label>
         <label>Tag Search: 
             <input  type="text"
                     name="query"
