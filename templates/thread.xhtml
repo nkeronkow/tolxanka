@@ -109,8 +109,12 @@
                         {{ $img_path := printf "%s/%s" .Media.Hash .MediaName }}
                         <a href="/i/{{ $img_path }}" class="media_info">{{ truncate 100 .MediaName }} {{ .Media.InfoString }}</a>
                 {{ end }}
-                <span class="comment_text">{{ .EscapedComment }}</span>
-                {{ range .Replies }}{{ template "reply_link" . }}{{ end }}
+                <span class="combined_comment_text">
+                    <span class="comment_text">{{ .EscapedComment }}</span>
+                    <span class="replies">
+                        {{ range .Replies }}{{ template "reply_link" . }}{{ end }}
+                    </span>
+                </span>
             </div>
         </div>
 

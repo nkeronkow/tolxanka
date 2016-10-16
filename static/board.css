@@ -110,7 +110,7 @@ label.mod_option input{ margin-left: 1em; margin-right: 1em; }
 a, button#mod_posts { color: #839496; outline: 0; text-decoration: none; } 
 a:hover, button#mod_posts:hover { color: #7ddbde; }
 a.post_quote, a.reply_link { text-decoration: none; font-size: 0.8em; }
-a.reply_link { color: #d33682; margin-left: 0.4em }
+a.reply_link { color: #d33682; margin-left: 0.4em; }
 a.post_quote { color: #dc322f; }
 a.reply_link:hover { color: #b58900; }
 a.post_quote:hover { color: #268bd2; }
@@ -359,14 +359,11 @@ a.media_info {
 }
 
 .full {
-    display: block;
     margin-bottom: 0.5em;
     margin-right: 0.5em;
     cursor: pointer;
-    max-width: 100%;
-    max-height: 100%;
-    /*width: 100%;*/
-    /*height: 100%;*/
+    width: 100%;
+    height: 100%;
 }
 
 
@@ -467,6 +464,14 @@ div.comment_body {
     padding-right: 0.75em;
     margin-left: 2px;
     max-width: 65vw;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+}
+
+span.combined_comment_text {
+    display: flex;
+    flex-direction: row;
 }
 
 span.comment_text {
