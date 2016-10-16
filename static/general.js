@@ -186,8 +186,6 @@ function insertFullMedia(row, thumb, type) {
     var e = document.createElement(type);
     e.setAttribute("src", "/i/" + path);
     e.classList.add("full");
-    e.style.maxWidth = "100%";
-    e.style.maxHeight = "100%";
     body.insertBefore(e, text);
     return e
 }
