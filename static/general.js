@@ -181,7 +181,7 @@ function insertFullAudio(row, thumb) {
 
 function insertFullMedia(row, thumb, type) {
     var body = qs(row, "div.comment_body");
-    var text = qs(row, "span.comment_text");
+    var text = qs(row, "span.combined_comment_text");
     var path = thumb.getAttribute("data-path");
     var e = document.createElement(type);
     e.setAttribute("src", "/i/" + path);
