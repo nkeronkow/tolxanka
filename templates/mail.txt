@@ -1,6 +1,6 @@
 {{ define "post_reported" }}Subject: REPORTED POSTS: {{ .Addr }} has reported posts in Tolxanka.
 
-User {{ .Addr }} has reported post {{ .Ref.Post }} in thread {{ .Ref.Thread }} as containing illegal content.
+User {{ .Addr }} has reported post {{ .Post.LocalId }} in thread {{ .Post.ParentThread }} as containing illegal content.
 It will be automatically hidden if it passes the autodelete threshold.
 
     - Tolxanka
