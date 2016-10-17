@@ -326,9 +326,11 @@ func mailNotify(ip string, p *post) {
 
 	msg := new(bytes.Buffer)
 	data := struct {
+        From string
+        To   string
 		Addr string
 		Post *post
-	}{ip, p}
+	}{ settings.Notify.Addr, settings.Notify.FromEmail, ip, p}
 
 	e := text.ExecuteTemplate(msg, "post_reported", data)
 	if e != nil {

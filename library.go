@@ -87,7 +87,7 @@ type library struct {
 	CachedMedia *list.List
 	CacheSize   int
 
-	mtx sync.Mutex
+	mtx sync.RWMutex
 }
 
 func (lib *library) dispatch(media io.ReadSeeker, format string) (*media, error) {
@@ -254,20 +254,30 @@ func (lib *library) DecRef(i *media) {
 
 func (lib *library) WriteMedia(
 	w http.ResponseWriter, hash string, full bool) {
-	lib.mtx.Lock()
-	defer lib.mtx.Unlock()
 
-	i, ok := lib.byHash[hash]
-	if !ok || i.Blocked != nil {
-		return
-	}
+    var inMemory, wroteThumb, ok bool
+    var i *media
 
-	if !full {
-		w.Write(i.Thumb)
-		return
-	}
+    checkAndHandleThumb := func() {
+        lib.mtx.RLock()
+        defer lib.mtx.RUnlock()
 
-	if !i.InMemory {
+        i, ok = lib.byHash[hash]
+        if !ok || i.Blocked != nil {
+            return
+        }
+
+        if !full {
+            w.Write(i.Thumb)
+            wroteThumb = true
+            return
+        }
+    }
+
+    readFromDisk := func() {
+        lib.mtx.Lock()
+        defer lib.mtx.Unlock()
+
 		imgFile, e := os.Open(i.FileName())
 		if e != nil {
 			log.Println("Failed opening media file: " + e.Error())
@@ -282,9 +292,18 @@ func (lib *library) WriteMedia(
 		}
 
 		i.InMemory = true
-	}
+    }
 
-	w.Write(i.Full)
+    checkAndHandleThumb()
+    if wroteThumb {
+        return
+    } else if !inMemory {
+        readFromDisk()
+    }
+
+    lib.mtx.RLock()
+    defer lib.mtx.RUnlock()
+    w.Write(i.Full)
 }
 
 func newLibrary() *library {

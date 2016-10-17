@@ -136,7 +136,7 @@ ThreadFormLifetime = "1h"
 Addr = "aaaaaaaaaa@bbbbbb.ccc"
 FromEmail = "aaaaaaaaaa@bbbbbb.ccc"
 Password = "1234"
-SMTPServer = "asdf.lwakejr.dsf:3234"
+SMTPServer = "mail.example.com:587"
 
 # Name - File name of on-disk SQLite database.
 # DumpInterval - Length of time between flushing new posts to on-disk DB.
