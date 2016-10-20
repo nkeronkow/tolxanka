@@ -1,7 +1,9 @@
 Tolxanka
 ========
 
-The Tolxanka imageboard. This is not currently in production anywhere. Feel
+The Tolxanka imageboard. Currently running on http://sepli.net
+
+This is not well tested and not currently in production anywhere else. Feel
 free to use it, but expect a fair amount of bugs.
 
 Features

@@ -283,7 +283,7 @@ div.summary_comment {
 }
 
 span.updated {
-    font-size: 12px;
+    font-size: .75em;
     font-weight: normal;
     color: #cb4b16;
     text-align: right;
